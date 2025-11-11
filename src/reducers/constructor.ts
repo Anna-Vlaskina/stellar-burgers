@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TIngredient, TConstructorIngredient } from '../utils/types';
-import { nanoid } from 'nanoid';
+import { TConstructorIngredient } from '../utils/types';
 
 export type TConstructorState = {
   bun: TConstructorIngredient | null;
@@ -12,30 +11,23 @@ const initialState: TConstructorState = {
   ingredients: []
 };
 
-export const constructorSlice = createSlice({
+const constructorSlice = createSlice({
   name: 'constructor',
   initialState,
   reducers: {
-    addIngredient: {
-      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
-        const ingredient = action.payload;
-        if (ingredient.type === 'bun') {
-          state.bun = ingredient;
-        } else {
-          state.ingredients.push(ingredient);
-        }
-      },
-      prepare: (ingredient: TIngredient) => ({
-        payload: { ...ingredient, id: nanoid() }
-      })
+    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
+      const ingredient = action.payload;
+      if (ingredient.type === 'bun') {
+        state.bun = ingredient;
+      } else {
+        state.ingredients.push(ingredient);
+      }
     },
-
     removeIngredient: (state, action: PayloadAction<string>) => {
       state.ingredients = state.ingredients.filter(
         (item) => item.id !== action.payload
       );
     },
-
     moveIngredient: (
       state,
       action: PayloadAction<{ fromIndex: number; toIndex: number }>
@@ -47,7 +39,6 @@ export const constructorSlice = createSlice({
       items.splice(fromIndex, 1);
       items.splice(toIndex, 0, draggedItem);
     },
-
     clearConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
@@ -61,4 +52,5 @@ export const {
   moveIngredient,
   clearConstructor
 } = constructorSlice.actions;
+
 export default constructorSlice.reducer;

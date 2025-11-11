@@ -129,19 +129,6 @@ const App: FC = () => {
           />
         </Routes>
       )}
-
-      <Routes>
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <ProtectedRoute onlyAuth>
-              <OrderInfo />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
     </div>
   );
 };

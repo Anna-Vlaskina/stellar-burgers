@@ -17,7 +17,7 @@ import {
 
 const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  constructor: constructorReducer,
+  burgerConstructor: constructorReducer,
   user: userReducer,
   profileForm: profileFormReducer,
   feed: feedReducer,

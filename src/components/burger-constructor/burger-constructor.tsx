@@ -1,19 +1,20 @@
 import { FC, useMemo } from 'react';
-import { RootState, useSelector, useDispatch } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { createOrder } from '../../reducers/order';
 import { clearConstructor } from '../../reducers/constructor';
 import { openOrderModal } from '../../reducers/modal';
+import { selectBurgerConstructor, selectOrderLoading, selectModalOrder } from '../../services/selectors';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
 
-  const constructorItems = useSelector((state: RootState) => state.constructor);
+  const constructorItems = useSelector(selectBurgerConstructor);
 
-  const orderRequest = useSelector((state: RootState) => state.order.isLoading);
+  const orderRequest = useSelector(selectOrderLoading);
 
-  const orderModalData = useSelector((state: RootState) => state.modal.order);
+  const orderModalData = useSelector(selectModalOrder);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;

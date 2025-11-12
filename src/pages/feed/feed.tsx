@@ -4,13 +4,14 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { fetchFeeds } from '../../reducers/feed';
 import { TOrder } from '@utils-types';
+import { selectFeedOrders, selectFeedLoading, selectFeedError } from '../../services/selectors';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();
 
-  const orders: TOrder[] = useSelector((state) => state.feed.orders);
-  const loading = useSelector((state) => state.feed.loading);
-  const error = useSelector((state) => state.feed.error);
+  const orders: TOrder[] = useSelector(selectFeedOrders);
+  const loading = useSelector(selectFeedLoading);
+  const error = useSelector(selectFeedError);
 
   useEffect(() => {
     dispatch(fetchFeeds());

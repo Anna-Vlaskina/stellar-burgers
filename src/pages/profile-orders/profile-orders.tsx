@@ -3,13 +3,14 @@ import { TOrder } from '@utils-types';
 import { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import { fetchProfileOrders } from '../../reducers/profileOrders';
+import { selectProfileOrders, selectProfileLoading, selectProfileError } from '../../services/selectors';
 
 export const ProfileOrders: FC = () => {
   const dispatch = useDispatch();
 
-  const orders: TOrder[] = useSelector((state) => state.profileOrders.orders);
-  const loading = useSelector((state) => state.profileOrders.loading);
-  const error = useSelector((state) => state.profileOrders.error);
+  const orders: TOrder[] = useSelector(selectProfileOrders);
+  const loading = useSelector(selectProfileLoading);
+  const error = useSelector(selectProfileError);
 
   useEffect(() => {
     dispatch(fetchProfileOrders());

@@ -12,10 +12,14 @@ const initialState: TConstructorState = {
 };
 
 const constructorSlice = createSlice({
-  name: 'constructor',
+  name: 'burgerConstructor',
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
+      console.log('addIngredient payload:', action.payload);
+      console.log('Payload type:', typeof action.payload);
+      console.log('Payload keys:', Object.keys(action.payload));
+
       const ingredient = action.payload;
       if (ingredient.type === 'bun') {
         state.bun = ingredient;

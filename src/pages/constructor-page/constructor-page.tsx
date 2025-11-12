@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch, RootState } from '../../services/store';
-
+import { useSelector, useDispatch } from '../../services/store';
 import styles from './constructor-page.module.css';
-
 import { BurgerIngredients, BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
-
 import { fetchIngredients } from '../../reducers/ingredients';
+import { selectIngredientsLoading, selectIngredientsItems } from '../../services/selectors';
 
 export const ConstructorPage: FC = () => {
   const dispatch = useDispatch();
@@ -16,13 +14,9 @@ export const ConstructorPage: FC = () => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-  const isIngredientsLoading = useSelector(
-    (state: RootState) => state.ingredients.isLoading
-  );
+  const isIngredientsLoading = useSelector(selectIngredientsLoading);
 
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.items
-  );
+  const ingredients = useSelector(selectIngredientsItems);
 
   if (!isIngredientsLoading && ingredients.length === 0) {
     return <Preloader />;

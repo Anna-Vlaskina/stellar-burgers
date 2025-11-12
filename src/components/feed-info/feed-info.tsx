@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { RootState, useSelector } from '../../services/store';
 import { FeedInfoUI } from '../ui/feed-info';
 import { TOrder } from '@utils-types';
+import { selectFeed } from '../../services/selectors';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
@@ -10,9 +11,7 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
     .slice(0, 20);
 
 export const FeedInfo: FC = () => {
-  const { orders, total, totalToday } = useSelector(
-    (state: RootState) => state.feed
-  );
+  const { orders, total, totalToday } = useSelector(selectFeed);
 
   const feed = { total, totalToday };
 

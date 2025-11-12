@@ -1,16 +1,15 @@
 import { forwardRef, useMemo } from 'react';
-import { useSelector, RootState } from '../../services/store';
+import { useSelector } from '../../services/store';
 import { TIngredientsCategoryProps } from './type';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { TConstructorIngredient } from '@utils-types';
+import { selectBurgerConstructor } from '../../services/selectors';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  const { bun, ingredients: constructorIngredients } = useSelector(
-    (state: RootState) => state.constructor
-  );
+  const { bun, ingredients: constructorIngredients } = useSelector(selectBurgerConstructor);
 
   const ingredientsCounters = useMemo(() => {
     const counters: Record<string, number> = {};

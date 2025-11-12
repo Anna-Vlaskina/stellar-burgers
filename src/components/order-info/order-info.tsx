@@ -1,15 +1,13 @@
 import { FC, useMemo } from 'react';
-import { useSelector, RootState } from '../../services/store';
+import { useSelector } from '../../services/store';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { selectOrderData, selectIngredientsItems } from '../../services/selectors';
 
 export const OrderInfo: FC = () => {
-  const orderData = useSelector((state: RootState) => state.order.orderData);
-
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.items
-  );
+  const orderData = useSelector(selectOrderData);
+  const ingredients = useSelector(selectIngredientsItems);
 
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;

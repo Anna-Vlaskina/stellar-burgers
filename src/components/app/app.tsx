@@ -20,13 +20,14 @@ import {
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
-import { RootState, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
+import { selectUser } from '../../services/selectors';
 
 const ProtectedRoute: FC<{ onlyAuth?: boolean; children: JSX.Element }> = ({
   onlyAuth = false,
   children
 }) => {
-  const user = useSelector((state: RootState) => state.user.user);
+  const user = useSelector(selectUser);
   const isAuth = user !== null && !!user.email;
 
   if (onlyAuth && !isAuth) return <Navigate to='/login' replace />;
@@ -38,7 +39,6 @@ const App: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as { background?: Location };
-
   const handleCloseModal = () => navigate(-1);
 
   return (

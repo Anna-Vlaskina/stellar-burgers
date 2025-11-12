@@ -94,7 +94,6 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // registerUser
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -109,7 +108,6 @@ export const userSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // loginUser
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -124,7 +122,6 @@ export const userSlice = createSlice({
         state.error = action.payload as string;
       })
 
-      // getUser
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthChecked = true;
@@ -134,12 +131,10 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
 
-      // updateUser
       .addCase(updateUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
 
-      // logoutUser
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
       });

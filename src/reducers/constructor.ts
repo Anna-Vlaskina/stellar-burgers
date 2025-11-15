@@ -16,15 +16,10 @@ const constructorSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
-      console.log('addIngredient payload:', action.payload);
-      console.log('Payload type:', typeof action.payload);
-      console.log('Payload keys:', Object.keys(action.payload));
-
-      const ingredient = action.payload;
-      if (ingredient.type === 'bun') {
-        state.bun = ingredient;
+      if (action.payload.type === 'bun') {
+        state.bun = action.payload;
       } else {
-        state.ingredients.push(ingredient);
+        state.ingredients.push(action.payload);
       }
     },
     removeIngredient: (state, action: PayloadAction<string>) => {
@@ -38,9 +33,15 @@ const constructorSlice = createSlice({
     ) => {
       const { fromIndex, toIndex } = action.payload;
       const items = state.ingredients;
+      if (
+        fromIndex < 0 ||
+        toIndex < 0 ||
+        fromIndex >= items.length ||
+        toIndex >= items.length
+      )
+        return;
 
-      const draggedItem = items[fromIndex];
-      items.splice(fromIndex, 1);
+      const [draggedItem] = items.splice(fromIndex, 1);
       items.splice(toIndex, 0, draggedItem);
     },
     clearConstructor: (state) => {

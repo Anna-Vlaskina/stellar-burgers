@@ -5,7 +5,10 @@ import { BurgerIngredients, BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
 import { fetchIngredients } from '../../reducers/ingredients';
-import { selectIngredientsLoading, selectIngredientsItems } from '../../services/selectors';
+import {
+  selectIngredientsLoading,
+  selectIngredientsItems
+} from '../../services/selectors';
 
 export const ConstructorPage: FC = () => {
   const dispatch = useDispatch();

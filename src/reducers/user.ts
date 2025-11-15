@@ -123,16 +123,19 @@ export const userSlice = createSlice({
       })
 
       .addCase(getUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        const { name, email } = action.payload;
+        state.user = { name, email };
         state.isAuthChecked = true;
       })
+
       .addCase(getUser.rejected, (state) => {
         state.user = null;
         state.isAuthChecked = true;
       })
 
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.user = action.payload;
+        const { name, email } = action.payload;
+        state.user = { name, email };
       })
 
       .addCase(logoutUser.fulfilled, (state) => {

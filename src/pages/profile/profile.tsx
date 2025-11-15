@@ -6,7 +6,6 @@ import { selectUser } from '../../services/selectors';
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
-
   const user = useSelector(selectUser);
 
   const [formValue, setFormValue] = useState({
@@ -34,7 +33,12 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(updateUser({ ...formValue }));
+    const updateData: Partial<typeof formValue> = {};
+    if (formValue.name !== user?.name) updateData.name = formValue.name;
+    if (formValue.email !== user?.email) updateData.email = formValue.email;
+    if (formValue.password) updateData.password = formValue.password;
+
+    dispatch(updateUser(updateData));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
@@ -47,8 +51,8 @@ export const Profile: FC = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValue((prevState) => ({
-      ...prevState,
+    setFormValue((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value
     }));
   };

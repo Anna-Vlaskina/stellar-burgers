@@ -7,7 +7,6 @@ import profileFormReducer from '../reducers/profileForm';
 import feedReducer from '../reducers/feed';
 import profileOrdersReducer from '../reducers/profileOrders';
 import orderReducer from '../reducers/order';
-import modalReduser from '../reducers/modal';
 
 import {
   TypedUseSelectorHook,
@@ -22,8 +21,7 @@ const rootReducer = combineReducers({
   profileForm: profileFormReducer,
   feed: feedReducer,
   profileOrders: profileOrdersReducer,
-  order: orderReducer,
-  modal: modalReduser
+  order: orderReducer
 });
 
 const store = configureStore({

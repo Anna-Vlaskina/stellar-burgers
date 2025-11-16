@@ -16,8 +16,11 @@ export const fetchProfileOrders = createAsyncThunk<
     ).length;
 
     return { orders, total, totalToday };
-  } catch (err: any) {
-    return rejectWithValue(err.message || 'Ошибка загрузки заказов');
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return rejectWithValue(err.message);
+    }
+    return rejectWithValue('Ошибка загрузки заказов');
   }
 });
 

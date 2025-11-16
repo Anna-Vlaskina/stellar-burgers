@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { BurgerConstructorUI } from '@ui';
 import { TConstructorIngredient } from '@utils-types';
 import { createOrder, closeOrderModal } from '../../reducers/order';
-import { clearConstructor } from '../../reducers/constructor';
 import {
   selectBurgerConstructor,
   selectOrderRequest,
@@ -39,7 +38,6 @@ export const BurgerConstructor: FC = () => {
   };
 
   const handleCloseModal = () => {
-    dispatch(clearConstructor());
     dispatch(closeOrderModal());
   };
 

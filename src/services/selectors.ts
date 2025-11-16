@@ -1,4 +1,5 @@
 import { RootState } from '../services/store';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const selectUser = (state: RootState) => state.user.user;
 export const selectBurgerConstructor = (state: RootState) =>
@@ -24,7 +25,7 @@ export const selectProfileLoading = (state: RootState) =>
 export const selectProfileError = (state: RootState) =>
   state.profileOrders.error;
 
-export const selectAllOrders = (state: RootState) => [
-  ...state.feed.orders,
-  ...state.profileOrders.orders
-];
+export const selectAllOrders = createSelector(
+  [selectFeedOrders, selectProfileOrders],
+  (feedOrders, profileOrders) => [...feedOrders, ...profileOrders]
+);

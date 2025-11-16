@@ -1,12 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { orderBurgerApi } from '../utils/burger-api';
+import { orderBurgerApi, getOrderByNumberApi } from '../utils/burger-api';
 import { TOrder } from '../utils/types';
+import { clearConstructor } from './constructor';
 
 export const createOrder = createAsyncThunk<TOrder, string[]>(
   'orders/createOrder',
-  async (ingredientIds: string[]) => {
-    const response = await orderBurgerApi(ingredientIds);
-    return response.order;
+  async (ingredientIds, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await orderBurgerApi(ingredientIds);
+      const orderNumber = response.order.number;
+      const fullOrderResponse = await getOrderByNumberApi(orderNumber);
+      const fullOrder = fullOrderResponse.orders[0];
+      dispatch(clearConstructor());
+      return fullOrder;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        return rejectWithValue(err.message);
+      }
+      return rejectWithValue('Ошибка создания заказа');
+    }
   }
 );
 

@@ -5,7 +5,7 @@ import {
   useNavigate,
   Navigate
 } from 'react-router-dom';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
   ConstructorPage,
   Feed,
@@ -20,8 +20,10 @@ import {
 import { AppHeader, Modal, OrderInfo, IngredientDetails } from '@components';
 import '../../index.css';
 import styles from './app.module.css';
-import { useSelector } from '../../services/store';
+import { useSelector, useDispatch } from '../../services/store';
 import { selectUser } from '../../services/selectors';
+import { getUser } from '../../reducers/user';
+import { fetchIngredients } from '../../reducers/ingredients';
 
 const ProtectedRoute: FC<{ onlyAuth?: boolean; children: JSX.Element }> = ({
   onlyAuth = false,
@@ -40,6 +42,12 @@ const App: FC = () => {
   const navigate = useNavigate();
   const state = location.state as { background?: Location };
   const handleCloseModal = () => navigate(-1);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+    dispatch(fetchIngredients());
+  }, []);
 
   return (
     <div className={styles.app}>

@@ -1,20 +1,15 @@
 describe('Тестирование страницы конструктора бургера', () => {
-  
-
   describe('Тестирование конструктора', () => {
-
     beforeEach(() => {
-    cy.intercept('GET', '**/api/ingredients', {
-      fixture: 'ingredients.json'
-    }).as('getIngredients');
+      cy.intercept('GET', '**/api/ingredients', {
+        fixture: 'ingredients.json'
+      }).as('getIngredients');
 
-    cy.visit('/');
-    cy.wait('@getIngredients');
+      cy.visit('/');
+      cy.wait('@getIngredients');
 
-    cy.get('[data-testid="ingredient-item"]', { timeout: 8000 }).should('have.length.at.least', 1);
-  });
-
-
+      cy.get('[data-testid="ingredient-item"]', { timeout: 8000 }).should('have.length.at.least', 1);
+    });
 
     it('Добавление булки в конструктор', () => {
       cy.get('[data-testid="ingredient-item"]')
@@ -22,7 +17,7 @@ describe('Тестирование страницы конструктора б�
         .parent()
         .as('bunItem');
       cy.get('@bunItem').contains('Добавить').click();
-      cy.get('[data-testid="constructor-element"]').should('not.exist');
+      cy.get('[data-testid="constructor-bun"]').should('have.length', 2);
     });
 
     it('Добавление начинки в конструктор', () => {
@@ -47,6 +42,7 @@ describe('Тестирование страницы конструктора б�
       beforeEach(() => {
         cy.contains('[data-testid="ingredient-item"]', 'Соус тестовый').click();
         cy.get('[data-testid="modal"]').should('be.visible');
+        cy.get('[data-testid="ingredient-details-name"]').should('contain', 'Соус тестовый');
       });
       
       it('Закрытие по клику на крестик', () => {
@@ -63,7 +59,6 @@ describe('Тестирование страницы конструктора б�
   
   describe('Создание заказа с авторизацией', () => {
     beforeEach(() => {
-      
       cy.setCookie('accessToken', 'Bearer mock-access-token');
       cy.window().then(win => {
         win.localStorage.setItem('refreshToken', 'mock-refresh-token');
@@ -74,17 +69,26 @@ describe('Тестирование страницы конструктора б�
         fixture: 'ingredients.json'
       }).as('getIngredients');
 
-      cy.intercept('POST', '**/api/orders**', {
+      cy.intercept('POST', '**/api/orders', {
         statusCode: 200,
         fixture: 'order.json'
       }).as('createOrder');
+
+      cy.intercept('GET', '**/api/orders/*', {
+        statusCode: 200,
+        fixture: 'order-details.json'
+      }).as('getOrderByNumber');
+
+      cy.intercept('GET', '**/api/auth/user**', {
+        statusCode: 200,
+        fixture: 'user.json'
+      });
 
       cy.visit('/');
       cy.wait('@getIngredients');
     });
 
     it('Авторизованный пользователь создаёт заказ', () => {
-
       cy.contains('[data-testid="ingredient-item"]', 'Булка тестовая')
         .within(() => cy.contains('Добавить').click());
 
@@ -93,7 +97,7 @@ describe('Тестирование страницы конструктора б�
 
       cy.get('[data-testid="constructor-element"]').should('have.length.at.least', 1);
 
-      cy.contains('button', 'Оформить заказ').click();
+      cy.get('[data-testid="constructor-button"]').click();
 
       cy.wait('@createOrder');
 

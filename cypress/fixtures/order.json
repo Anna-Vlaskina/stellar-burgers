@@ -1,8 +1,6 @@
 {
   "success": true,
-  "name": "Тестовый заказ",
   "order": {
     "number": 12345
   }
 }
-

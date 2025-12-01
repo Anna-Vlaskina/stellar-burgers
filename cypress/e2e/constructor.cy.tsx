@@ -88,6 +88,13 @@ describe('Тестирование страницы конструктора б�
       cy.wait('@getIngredients');
     });
 
+    afterEach(() => {
+      cy.clearCookie('accessToken');
+      cy.window().then(win => {
+        win.localStorage.removeItem('refreshToken');
+      });
+    });
+
     it('Авторизованный пользователь создаёт заказ', () => {
       cy.contains('[data-testid="ingredient-item"]', 'Булка тестовая')
         .within(() => cy.contains('Добавить').click());

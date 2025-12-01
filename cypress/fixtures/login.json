@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "accessToken": "mock-access-token",
+  "refreshToken": "mock-refresh-token",
+  "user": {
+    "email": "test@example.com",
+    "name": "Тестовый Пользователь"
+  }
+}
+
